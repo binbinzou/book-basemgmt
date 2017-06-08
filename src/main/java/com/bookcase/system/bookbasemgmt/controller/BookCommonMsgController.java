@@ -32,6 +32,7 @@ import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqParam;
 import com.bookcase.system.bookbasemgmt.dto.bookcommonmsg.BookCommonMsgReqBody;
 import com.bookcase.system.bookbasemgmt.dto.bookcommonmsg.BookCommonMsgReqParam;
 import com.bookcase.system.bookbasemgmt.otd.bookauthor.BookAuthorRspBody;
+import com.bookcase.system.bookbasemgmt.otd.bookauthor.BookAuthorRspQuery;
 import com.bookcase.system.bookbasemgmt.otd.bookcommonmsg.BookCommonMsgRspBody;
 import com.bookcase.system.bookbasemgmt.service.BookAuthorService;
 import com.bookcase.system.bookbasemgmt.service.BookCommonMsgService;
@@ -59,10 +60,10 @@ public class BookCommonMsgController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(paramType = "path", name = "page", dataType = "String", required = true, value = "第几页", defaultValue = "1"),
 			@ApiImplicitParam(paramType = "path", name = "size", dataType = "String", required = true, value = "每页数量", defaultValue = "10") })
-	public GeneralPagingResult<List<BookCommonMsgRspBody>> findBookCommonMsgs(
+	public GeneralPagingResult<List<BookCommonMsgRspBody>> findBookCommonMsgs(@RequestBody BookAuthorRspQuery query,
 			@PathVariable("page") String page, @PathVariable("size") String size) {
 		GeneralPagingResult<List<BookCommonMsgRspBody>> result = commonMsgService
-				.findBookCommonMsgs(page, size);
+				.findBookCommonMsgs(query,page, size);
 		return result;
 	}
 
@@ -102,6 +103,16 @@ public class BookCommonMsgController {
 			@RequestBody BookCommonMsgReqParam bookCommonMsgReqParam) {
 		GeneralResult result = commonMsgService
 				.deleteBookCommonMsgs(bookCommonMsgReqParam);
+		return result;
+	}
+	
+	@ApiOperation(value = "根据Name查询书信息(todo)")
+	@RequestMapping(value = "/auth/bookcommonmsgs/{name}", method = RequestMethod.GET)
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", name = "name", dataType = "String", required = true, value = "书信息名字", defaultValue = "") })
+	public GeneralContentResult<List<BookCommonMsgRspBody>> findBookCommonMsgByName(
+			@PathVariable("name") String name) {
+		GeneralContentResult<List<BookCommonMsgRspBody>> result = commonMsgService
+				.findBookCommonMsgByName(name);
 		return result;
 	}
 	

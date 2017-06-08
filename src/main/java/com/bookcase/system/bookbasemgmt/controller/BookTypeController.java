@@ -31,6 +31,7 @@ import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqBody;
 import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqParam;
 import com.bookcase.system.bookbasemgmt.dto.booktype.BookTypeReqBody;
 import com.bookcase.system.bookbasemgmt.dto.booktype.BookTypeReqParam;
+import com.bookcase.system.bookbasemgmt.dto.booktype.BookTypeReqQuery;
 import com.bookcase.system.bookbasemgmt.otd.bookauthor.BookAuthorRspBody;
 import com.bookcase.system.bookbasemgmt.otd.booktype.BookTypeRspBody;
 import com.bookcase.system.bookbasemgmt.service.BookAuthorService;
@@ -59,10 +60,10 @@ public class BookTypeController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(paramType = "path", name = "page", dataType = "String", required = true, value = "第几页", defaultValue = "1"),
 			@ApiImplicitParam(paramType = "path", name = "size", dataType = "String", required = true, value = "每页数量", defaultValue = "10") })
-	public GeneralPagingResult<List<BookTypeRspBody>> findBookTypes(
+	public GeneralPagingResult<List<BookTypeRspBody>> findBookTypes(@RequestBody BookTypeReqQuery query,
 			@PathVariable("page") String page, @PathVariable("size") String size) {
 		GeneralPagingResult<List<BookTypeRspBody>> result = bookTypeService
-				.findBookTypes(page, size);
+				.findBookTypes(query,page, size);
 		return result;
 	}
 
@@ -102,6 +103,16 @@ public class BookTypeController {
 			@RequestBody BookTypeReqParam bookTypeReqParam) {
 		GeneralResult result = bookTypeService
 				.deleteBookTypes(bookTypeReqParam);
+		return result;
+	}
+	
+	@ApiOperation(value = "根据Name查询图书类型信息(todo)")
+	@RequestMapping(value = "/auth/booktypes/{name}", method = RequestMethod.GET)
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", name = "name", dataType = "String", required = true, value = "图书类型信息Id", defaultValue = "") })
+	public GeneralContentResult<List<BookTypeRspBody>> findBookTypeByName(
+			@PathVariable("name") String name) {
+		GeneralContentResult<List<BookTypeRspBody>> result = bookTypeService
+				.findBookTypeByName(name);
 		return result;
 	}
 	

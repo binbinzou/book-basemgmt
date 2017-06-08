@@ -33,6 +33,7 @@ import com.bookcase.system.bookbasemgmt.domain.BaseBookauthor;
 import com.bookcase.system.bookbasemgmt.dto.bookcommonmsg.BookCommonMsgReqBody;
 import com.bookcase.system.bookbasemgmt.dto.bookcommonmsg.BookCommonMsgReqParam;
 import com.bookcase.system.bookbasemgmt.otd.bookauthor.BookAuthorRspBody;
+import com.bookcase.system.bookbasemgmt.otd.bookauthor.BookAuthorRspQuery;
 import com.bookcase.system.bookbasemgmt.otd.bookcommonmsg.BookCommonMsgRspBody;
 import com.bookcase.system.bookbasemgmt.repository.BaseBookCommonMsgRepository;
 import com.bookcase.system.bookbasemgmt.service.BookCommonMsgService;
@@ -57,14 +58,16 @@ public class BookCommonMsgServiceImpl implements BookCommonMsgService {
 	BaseBookCommonMsgRepository baseBookCommonMsgRepository;
 	
 	@Override
-	public GeneralPagingResult<List<BookCommonMsgRspBody>> findBookCommonMsgs(
+	public GeneralPagingResult<List<BookCommonMsgRspBody>> findBookCommonMsgs(BookAuthorRspQuery query,
 			String page, String size) {
 		GeneralPagingResult<List<BookCommonMsgRspBody>> result = new GeneralPagingResult<List<BookCommonMsgRspBody>>();
 		List<BookCommonMsgRspBody> rspBodies = new ArrayList<BookCommonMsgRspBody>();
 		PageRequest request = new PageRequest(Integer.parseInt(page) - 1,
 				Integer.parseInt(size));
+		String name = query.getName();
+		String orgId = "XXX";
 		Page<BaseBookCommonmsg> pg = baseBookCommonMsgRepository
-				.findBookCommonMsgs(request);
+				.findBookCommonMsgs(name,orgId,request);
 		PageInfo pageInfo = new PageInfo();
 		if (pg != null && pg.getContent().size() > 0) {
 			pageInfo.setPage(pg.getNumber() + 1);
@@ -156,6 +159,22 @@ public class BookCommonMsgServiceImpl implements BookCommonMsgService {
 			result.setCode(BookBaseMgmtResultConstant.BOOKBASEMGMT_UNKNOW_ERROR);
 			result.setMessage("删除失败");
 		}
+		return result;
+	}
+
+	@Override
+	public GeneralContentResult<List<BookCommonMsgRspBody>> findBookCommonMsgByName(
+			String name) {
+		GeneralContentResult<List<BookCommonMsgRspBody>> result = new GeneralContentResult<List<BookCommonMsgRspBody>>();
+		List<BookCommonMsgRspBody> rspBodies = new ArrayList<BookCommonMsgRspBody>();
+		String orgId = "XXX";
+		List<BaseBookCommonmsg> commonmsgs = baseBookCommonMsgRepository.findBookCommonMsgByName(name,orgId);
+		for(BaseBookCommonmsg bookCommonmsg : commonmsgs){
+			rspBodies.add(BookCommonMsgConverter.bookCommonmsg2BookCommonMsgRspBody(bookCommonmsg));
+		}
+		result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
+		result.setMessage("查询成功");
+		result.setContent(rspBodies);
 		return result;
 	}
 

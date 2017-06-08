@@ -18,6 +18,7 @@ import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqBody;
 import com.bookcase.system.bookbasemgmt.dto.bookcommonmsg.BookCommonMsgReqBody;
 import com.bookcase.system.bookbasemgmt.dto.bookcommonmsg.BookCommonMsgReqParam;
 import com.bookcase.system.bookbasemgmt.otd.bookauthor.BookAuthorRspBody;
+import com.bookcase.system.bookbasemgmt.otd.bookauthor.BookAuthorRspQuery;
 import com.bookcase.system.bookbasemgmt.otd.bookcommonmsg.BookCommonMsgRspBody;
 
 /**
@@ -32,7 +33,7 @@ import com.bookcase.system.bookbasemgmt.otd.bookcommonmsg.BookCommonMsgRspBody;
  */
 public interface BookCommonMsgService {
 
-	GeneralPagingResult<List<BookCommonMsgRspBody>> findBookCommonMsgs(
+	GeneralPagingResult<List<BookCommonMsgRspBody>> findBookCommonMsgs(BookAuthorRspQuery query,
 			String page, String size);
 
 	GeneralContentResult<BookCommonMsgRspBody> findBookCommonMsgById(
@@ -46,6 +47,9 @@ public interface BookCommonMsgService {
 
 	GeneralResult deleteBookCommonMsgs(
 			BookCommonMsgReqParam bookCommonMsgReqParam);
+
+	GeneralContentResult<List<BookCommonMsgRspBody>> findBookCommonMsgByName(
+			String name);
 
 	
 }

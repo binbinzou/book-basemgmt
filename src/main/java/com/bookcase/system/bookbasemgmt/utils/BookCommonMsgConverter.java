@@ -42,6 +42,7 @@ public class BookCommonMsgConverter {
 		rspBody.setStatus(bookCommonmsg.getStatus());
 		rspBody.setTranslatorId(bookCommonmsg.getTranslatorId());
 		rspBody.setUpdateTime(bookCommonmsg.getUpdateTime());
+		rspBody.setBooktypeId(bookCommonmsg.getBooktypeId());
 		return rspBody;
 	}
 
@@ -57,6 +58,7 @@ public class BookCommonMsgConverter {
 		commonmsg.setPublishHome(bookCommonMsgReqBody.getPublishHome());
 		commonmsg.setReadOvertime(bookCommonMsgReqBody.getReadOvertime());
 		commonmsg.setTranslatorId(bookCommonMsgReqBody.getTranslatorId());
+		commonmsg.setBooktypeId(bookCommonMsgReqBody.getBooktypeId());
 		return commonmsg;
 	}
 

@@ -29,6 +29,7 @@ import com.bookcase.common.system.bookframework.returnresult.GeneralPagingResult
 import com.bookcase.common.system.bookframework.returnresult.GeneralResult;
 import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqBody;
 import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqParam;
+import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqQuery;
 import com.bookcase.system.bookbasemgmt.dto.bookcaselayerinsidesize.BookCaseLayerInsideSizeReqBody;
 import com.bookcase.system.bookbasemgmt.dto.bookcaselayerinsidesize.BookCaseLayerInsideSizeReqParam;
 import com.bookcase.system.bookbasemgmt.otd.bookauthor.BookAuthorRspBody;
@@ -59,10 +60,10 @@ public class BookAuthorController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(paramType = "path", name = "page", dataType = "String", required = true, value = "第几页", defaultValue = "1"),
 			@ApiImplicitParam(paramType = "path", name = "size", dataType = "String", required = true, value = "每页数量", defaultValue = "10") })
-	public GeneralPagingResult<List<BookAuthorRspBody>> findBookAuthors(
+	public GeneralPagingResult<List<BookAuthorRspBody>> findBookAuthors(@RequestBody BookAuthorReqQuery query,
 			@PathVariable("page") String page, @PathVariable("size") String size) {
 		GeneralPagingResult<List<BookAuthorRspBody>> result = authorService
-				.findBookAuthors(page, size);
+				.findBookAuthors(query,page, size);
 		return result;
 	}
 
@@ -102,6 +103,16 @@ public class BookAuthorController {
 			@RequestBody BookAuthorReqParam bookAuthorReqParam) {
 		GeneralResult result = authorService
 				.deleteBookAuthors(bookAuthorReqParam);
+		return result;
+	}
+	
+	@ApiOperation(value = "根据名字查询作者信息(todo)")
+	@RequestMapping(value = "/auth/bookauthors/{name}", method = RequestMethod.GET)
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", name = "name", dataType = "String", required = true, value = "作者名字", defaultValue = "") })
+	public GeneralContentResult<List<BookAuthorRspBody>> findBookAuthorByName(
+			@PathVariable("name") String name) {
+		GeneralContentResult<List<BookAuthorRspBody>> result = authorService
+				.findBookAuthorByName(name);
 		return result;
 	}
 	

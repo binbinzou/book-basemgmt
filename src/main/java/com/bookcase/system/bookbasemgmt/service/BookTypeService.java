@@ -16,6 +16,7 @@ import com.bookcase.common.system.bookframework.returnresult.GeneralPagingResult
 import com.bookcase.common.system.bookframework.returnresult.GeneralResult;
 import com.bookcase.system.bookbasemgmt.dto.booktype.BookTypeReqBody;
 import com.bookcase.system.bookbasemgmt.dto.booktype.BookTypeReqParam;
+import com.bookcase.system.bookbasemgmt.dto.booktype.BookTypeReqQuery;
 import com.bookcase.system.bookbasemgmt.otd.booktype.BookTypeRspBody;
 
 /**
@@ -30,7 +31,7 @@ import com.bookcase.system.bookbasemgmt.otd.booktype.BookTypeRspBody;
  */
 public interface BookTypeService {
 
-	GeneralPagingResult<List<BookTypeRspBody>> findBookTypes(String page,
+	GeneralPagingResult<List<BookTypeRspBody>> findBookTypes(BookTypeReqQuery query,String page,
 			String size);
 
 	GeneralContentResult<BookTypeRspBody> findBookTypeById(String bookTypeId);
@@ -41,6 +42,8 @@ public interface BookTypeService {
 			BookTypeReqBody bookTypeReqBody);
 
 	GeneralResult deleteBookTypes(BookTypeReqParam bookTypeReqParam);
+
+	GeneralContentResult<List<BookTypeRspBody>> findBookTypeByName(String name);
 
 }
 

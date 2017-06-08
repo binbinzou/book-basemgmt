@@ -7,11 +7,12 @@ import com.bookcase.common.system.bookframework.returnresult.GeneralPagingResult
 import com.bookcase.common.system.bookframework.returnresult.GeneralResult;
 import com.bookcase.system.bookbasemgmt.dto.bookcaselayerinsidesize.BookCaseLayerInsideSizeReqBody;
 import com.bookcase.system.bookbasemgmt.dto.bookcaselayerinsidesize.BookCaseLayerInsideSizeReqParam;
+import com.bookcase.system.bookbasemgmt.dto.bookcaselayerinsidesize.BookCaseLayerInsideSizeReqQuery;
 import com.bookcase.system.bookbasemgmt.otd.bookcaselayerinsidesize.BookCaseLayerInsideSizeRspBody;
 
 public interface BookCaseLayerInsideSizeService {
 
-	GeneralPagingResult<List<BookCaseLayerInsideSizeRspBody>> findBookCaseLayerInsideSizes(String page, String size);
+	GeneralPagingResult<List<BookCaseLayerInsideSizeRspBody>> findBookCaseLayerInsideSizes(BookCaseLayerInsideSizeReqQuery query, String page, String size);
 
 	GeneralContentResult<BookCaseLayerInsideSizeRspBody> findBookCaseLayerInsideSizeById(
 			String bookCaseLayerInsideSizeId);
@@ -25,5 +26,8 @@ public interface BookCaseLayerInsideSizeService {
 
 	GeneralResult deleteBookCaseLayerInsideSizes(
 			BookCaseLayerInsideSizeReqParam bookCaseLayerInsideSizeReqParam);
+
+	GeneralContentResult<List<BookCaseLayerInsideSizeRspBody>> findBookCaseLayerInsideSizeByName(
+			String name);
 
 }

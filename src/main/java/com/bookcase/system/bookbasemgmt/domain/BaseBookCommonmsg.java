@@ -30,17 +30,22 @@ public class BaseBookCommonmsg implements Serializable {
 	@Column(name="AUTHOR_ID")
 	private String authorId;
 
-	@Lob
+	@Column(name="BOOKTYPE_ID")
+	private String booktypeId;
+
+	@Column(name="BRIEFING")
 	private String briefing;
 
-	@Lob
+	@Column(name="CATALOG")
 	private String catalog;
 
 	@Column(name="CREATE_TIME",insertable=false,updatable=false)
 	private Timestamp createTime;
 
+	@Column(name="CREATOR")
 	private String creator;
 
+	@Column(name="name")
 	private String name;
 
 	@Column(name="PAGE_CNT")
@@ -52,6 +57,7 @@ public class BaseBookCommonmsg implements Serializable {
 	@Column(name="READ_OVERTIME")
 	private short readOvertime;
 
+	@Column(name="STATUS")
 	private short status;
 
 	@Column(name="TRANSLATOR_ID")
@@ -85,6 +91,14 @@ public class BaseBookCommonmsg implements Serializable {
 
 	public void setAuthorId(String authorId) {
 		this.authorId = authorId;
+	}
+
+	public String getBooktypeId() {
+		return this.booktypeId;
+	}
+
+	public void setBooktypeId(String booktypeId) {
+		this.booktypeId = booktypeId;
 	}
 
 	public String getBriefing() {

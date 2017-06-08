@@ -32,6 +32,7 @@ import com.bookcase.system.bookbasemgmt.domain.BaseBookauthor;
 import com.bookcase.system.bookbasemgmt.domain.BaseBooktype;
 import com.bookcase.system.bookbasemgmt.dto.booktype.BookTypeReqBody;
 import com.bookcase.system.bookbasemgmt.dto.booktype.BookTypeReqParam;
+import com.bookcase.system.bookbasemgmt.dto.booktype.BookTypeReqQuery;
 import com.bookcase.system.bookbasemgmt.otd.bookauthor.BookAuthorRspBody;
 import com.bookcase.system.bookbasemgmt.otd.booktype.BookTypeRspBody;
 import com.bookcase.system.bookbasemgmt.repository.BaseBooktypeRepository;
@@ -57,14 +58,16 @@ public class BookTypeServiceImpl implements BookTypeService {
 	BaseBooktypeRepository baseBooktypeRepository;
 	
 	@Override
-	public GeneralPagingResult<List<BookTypeRspBody>> findBookTypes(
+	public GeneralPagingResult<List<BookTypeRspBody>> findBookTypes(BookTypeReqQuery query,
 			String page, String size) {
 		GeneralPagingResult<List<BookTypeRspBody>> result = new GeneralPagingResult<List<BookTypeRspBody>>();
 		List<BookTypeRspBody> rspBodies = new ArrayList<BookTypeRspBody>();
 		PageRequest request = new PageRequest(Integer.parseInt(page) - 1,
 				Integer.parseInt(size));
+		String name = query.getName();
+		String orgId = "XXX";
 		Page<BaseBooktype> pg = baseBooktypeRepository
-				.findBookTypes(request);
+				.findBookTypes(name,orgId,request);
 		PageInfo pageInfo = new PageInfo();
 		if (pg != null && pg.getContent().size() > 0) {
 			pageInfo.setPage(pg.getNumber() + 1);
@@ -155,6 +158,21 @@ public class BookTypeServiceImpl implements BookTypeService {
 			result.setMessage("删除失败");
 		}
 		return result;
+	}
+
+	@Override
+	public GeneralContentResult<List<BookTypeRspBody>> findBookTypeByName(String name) {
+		GeneralContentResult<List<BookTypeRspBody>> result = new GeneralContentResult<List<BookTypeRspBody>>();
+		String orgId = "XXX";
+		List<BookTypeRspBody> bodies = new ArrayList<BookTypeRspBody>();
+		List<BaseBooktype> booktypes = baseBooktypeRepository.findBookTypeByName(name,orgId);
+		for(BaseBooktype booktype : booktypes){
+			bodies.add(BookTypeConverter.booktype2BookBookTypeRspBody(booktype));
+		}
+		result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
+		result.setMessage("查询成功");
+		result.setContent(bodies);
+		return null;
 	}
 
 }

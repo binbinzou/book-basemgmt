@@ -9,8 +9,13 @@
 
 package com.bookcase.system.bookbasemgmt.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bookcase.system.bookbasemgmt.domain.BaseBookcaseType;
+import com.bookcase.system.bookbasemgmt.domain.BaseBookcaseTypeLayerinside;
 import com.bookcase.system.bookbasemgmt.dto.bookcasetype.BookCaseTypeReqBody;
+import com.bookcase.system.bookbasemgmt.dto.bookcasetypelayerinside.BookCaseTypeLayerInsideReqBody;
 import com.bookcase.system.bookbasemgmt.otd.bookcasetype.BookCaseTypeRspBody;
 
 /**
@@ -49,6 +54,19 @@ public class BookCaseTypeConverter {
 		rspBody.setCreateTime(baseBookcaseType.getCreateTime());
 		rspBody.setUpdateTime(baseBookcaseType.getUpdateTime());
 		return rspBody;
+	}
+	
+	public static List<BaseBookcaseTypeLayerinside> bookCaseTypeLayerInsideReqBodies2BaseBookcaseTypeLayerinsides(List<BookCaseTypeLayerInsideReqBody> bodies){
+		List<BaseBookcaseTypeLayerinside> layerinsides = new ArrayList<BaseBookcaseTypeLayerinside>();
+		for(BookCaseTypeLayerInsideReqBody  bookCaseTypeLayerInsideReqBody: bodies){
+			BaseBookcaseTypeLayerinside layerinside = new BaseBookcaseTypeLayerinside();
+			layerinside.setBoxX(bookCaseTypeLayerInsideReqBody.getBoxX());
+			layerinside.setBoxY(bookCaseTypeLayerInsideReqBody.getBoxY());
+			layerinside.setBoxZ(bookCaseTypeLayerInsideReqBody.getBoxZ());
+			layerinside.setBookcaseLayerinsidesizeId(bookCaseTypeLayerInsideReqBody.getBookCaseLayerInsideSizeId());
+			layerinsides.add(layerinside);
+		}
+		return layerinsides;
 	}
 	
 }

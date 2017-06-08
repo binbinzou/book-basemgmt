@@ -9,10 +9,13 @@
 
 package com.bookcase.system.bookbasemgmt.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.bookcase.system.bookbasemgmt.constant.BookBaseMgmtConstant;
@@ -31,14 +34,17 @@ import com.bookcase.system.bookbasemgmt.domain.BaseBookauthor;
 @Repository
 public interface BaseBookauthorRepository extends JpaRepository<BaseBookauthor, String>{
 	
-	@Query("SELECT a FROM BaseBookauthor a where a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
-	Page<BaseBookauthor> findBookAuthors(PageRequest request);
+	@Query("SELECT a FROM BaseBookauthor a where a.name like CONCAT('%',:name,'%') AND a.orgId = :orgId  AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
+	Page<BaseBookauthor> findBookAuthors(@Param("name") String name,@Param("orgId") String orgId, PageRequest request);
 
 	@Query("SELECT a FROM BaseBookauthor a where a.id = ?1 AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
 	BaseBookauthor findBookAuthorById(String authodId);
 
 	@Query("UPDATE BaseBookauthor a SET a.status = ?1 where a.id = ?2" )
 	int setStatusFor(short statusGlobalDeleted, String id);
+
+	@Query("SELECT a FROM BaseBookauthor a where a.name like CONCAT('%',:name,'%') AND a.orgId = :orgId  AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
+	List<BaseBookauthor> findBookAuthorByName(String name, String orgId);
 	
 }
 

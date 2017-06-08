@@ -16,6 +16,7 @@ import com.bookcase.common.system.bookframework.returnresult.GeneralPagingResult
 import com.bookcase.common.system.bookframework.returnresult.GeneralResult;
 import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqBody;
 import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqParam;
+import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqQuery;
 import com.bookcase.system.bookbasemgmt.otd.bookauthor.BookAuthorRspBody;
 
 /**
@@ -30,7 +31,7 @@ import com.bookcase.system.bookbasemgmt.otd.bookauthor.BookAuthorRspBody;
  */
 public interface BookAuthorService {
 
-	GeneralPagingResult<List<BookAuthorRspBody>> findBookAuthors(String page,
+	GeneralPagingResult<List<BookAuthorRspBody>> findBookAuthors(BookAuthorReqQuery query,String page,
 			String size);
 
 	GeneralContentResult<BookAuthorRspBody> findBookAuthorById(String authodId);
@@ -42,6 +43,9 @@ public interface BookAuthorService {
 			BookAuthorReqBody bookAuthorReqBody);
 
 	GeneralResult deleteBookAuthors(BookAuthorReqParam bookAuthorReqParam);
+
+	GeneralContentResult<List<BookAuthorRspBody>> findBookAuthorByName(
+			String name);
 
 	
 

@@ -1,6 +1,8 @@
 package com.bookcase.system.bookbasemgmt.repository;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,5 +27,15 @@ public interface BaseBookcaseTypeLayerinsideRepository extends JpaRepository<Bas
 	@Modifying
 	@Query("UPDATE BaseBookcaseTypeLayerinside a SET a.status = ?1 where a.id = ?2" )
 	int setStatusFor(short statusGlobalDeleted, String id);
+
+	@Query("DELETE FROM BaseBookcaseTypeLayerinside a WHERE a.bookcaseTypeId = ?2" )
+	void deleteByBookCaseTypeId(String bookcasetypeId);
+
+	@Modifying
+	@Query("UPDATE BaseBookcaseTypeLayerinside a SET a.status = ?1 where a.bookcaseTypeId = ?2" )
+	int updateStatusByBookCaseTypeId(short statusGlobalDeleted, String bookcaseTypeId);
+
+	@Query("SELECT a FROM BaseBookcaseTypeLayerinside a where a.bookcaseTypeId =?1 AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
+	List<BaseBookcaseTypeLayerinside> findByBookCaseTypeId(String bookcasetypeId);
 
 }

@@ -27,23 +27,28 @@ public class BaseBookauthor implements Serializable {
 	@Column(name="ANOTHER_NAME")
 	private String anotherName;
 
+	@Column(name="BIRTHDAY")
 	private String birthday;
 
 	@Column(name="CREATE_TIME",insertable=false,updatable=false)
 	private Timestamp createTime;
 
+	@Column(name="CREATOR")
 	private String creator;
 
-	@Lob
+	@Column(name="DESCRIPTION")
 	private String description;
 
+	@Column(name="NAME")
 	private String name;
 
+	@Column(name="NATIONALITY")
 	private String nationality;
 
 	@Column(name="PEN_NAME")
 	private String penName;
 
+	@Column(name="STATUS")
 	private short status;
 
 	@Column(name="UPDATE_TIME",insertable=false)

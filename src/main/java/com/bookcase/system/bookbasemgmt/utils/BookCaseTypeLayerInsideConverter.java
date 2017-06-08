@@ -48,6 +48,8 @@ public class BookCaseTypeLayerInsideConverter {
 		layerinside.setBoxX(bookCaseTypeLayerInsideReqBody.getBoxX());
 		layerinside.setBoxY(bookCaseTypeLayerInsideReqBody.getBoxY());
 		layerinside.setBoxZ(bookCaseTypeLayerInsideReqBody.getBoxZ());
+		layerinside.setBookcaseLayerinsidesizeId(bookCaseTypeLayerInsideReqBody.getBookCaseLayerInsideSizeId());
+		layerinside.setBookcaseTypeId(bookCaseTypeLayerInsideReqBody.getBookCaseTypeId());
 		return layerinside;
 	}
 

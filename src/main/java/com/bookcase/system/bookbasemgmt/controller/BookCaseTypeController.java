@@ -23,6 +23,7 @@ import com.bookcase.system.bookbasemgmt.dto.bookcaselayerinsidesize.BookCaseLaye
 import com.bookcase.system.bookbasemgmt.dto.bookcaselayerinsidesize.BookCaseLayerInsideSizeReqParam;
 import com.bookcase.system.bookbasemgmt.dto.bookcasetype.BookCaseTypeReqBody;
 import com.bookcase.system.bookbasemgmt.dto.bookcasetype.BookCaseTypeReqParam;
+import com.bookcase.system.bookbasemgmt.dto.bookcasetype.BookCaseTypeReqQuery;
 import com.bookcase.system.bookbasemgmt.otd.bookcasetype.BookCaseTypeRspBody;
 import com.bookcase.system.bookbasemgmt.service.BookCaseTypeService;
 
@@ -48,10 +49,10 @@ public class BookCaseTypeController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(paramType = "path", name = "page", dataType = "String", required = true, value = "第几页", defaultValue = "1"),
 			@ApiImplicitParam(paramType = "path", name = "size", dataType = "String", required = true, value = "每页数量", defaultValue = "10") })
-	public GeneralPagingResult<List<BookCaseTypeRspBody>> findBookCaseTypes(
+	public GeneralPagingResult<List<BookCaseTypeRspBody>> findBookCaseTypes(@RequestBody BookCaseTypeReqQuery query,
 			@PathVariable("page") String page, @PathVariable("size") String size) {
 		GeneralPagingResult<List<BookCaseTypeRspBody>> result = bookCaseTypeService
-				.findBookCaseTypes(page, size);
+				.findBookCaseTypes(query,page, size);
 		return result;
 	}
 
@@ -91,6 +92,16 @@ public class BookCaseTypeController {
 			@RequestBody BookCaseTypeReqParam bookCaseTypeReqParam) {
 		GeneralResult result = bookCaseTypeService
 				.deleteBookCaseTypes(bookCaseTypeReqParam);
+		return result;
+	}
+	
+	@ApiOperation(value = "根据name查询图书柜类别(done)")
+	@RequestMapping(value = "/auth/bookcasetype/{name}", method = RequestMethod.GET)
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", name = "name", dataType = "String", required = true, value = "图书柜类别名字", defaultValue = "") })
+	public GeneralContentResult<List<BookCaseTypeRspBody>> findBookCaseTypeByName(
+			@PathVariable("name") String name) {
+		GeneralContentResult<List<BookCaseTypeRspBody>> result = bookCaseTypeService
+				.findBookCaseTypeByName(name);
 		return result;
 	}
 	

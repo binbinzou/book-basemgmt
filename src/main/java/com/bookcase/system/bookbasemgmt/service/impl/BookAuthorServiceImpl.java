@@ -32,6 +32,7 @@ import com.bookcase.system.bookbasemgmt.domain.BaseBookauthor;
 import com.bookcase.system.bookbasemgmt.domain.BaseBookcaseType;
 import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqBody;
 import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqParam;
+import com.bookcase.system.bookbasemgmt.dto.bookauthor.BookAuthorReqQuery;
 import com.bookcase.system.bookbasemgmt.otd.bookauthor.BookAuthorRspBody;
 import com.bookcase.system.bookbasemgmt.otd.bookcasetype.BookCaseTypeRspBody;
 import com.bookcase.system.bookbasemgmt.repository.BaseBookauthorRepository;
@@ -58,14 +59,16 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 	BaseBookauthorRepository baseBookauthorRepository;
 	
 	@Override
-	public GeneralPagingResult<List<BookAuthorRspBody>> findBookAuthors(
+	public GeneralPagingResult<List<BookAuthorRspBody>> findBookAuthors(BookAuthorReqQuery query,
 			String page, String size) {
 		GeneralPagingResult<List<BookAuthorRspBody>> result = new GeneralPagingResult<List<BookAuthorRspBody>>();
 		List<BookAuthorRspBody> rspBodies = new ArrayList<BookAuthorRspBody>();
 		PageRequest request = new PageRequest(Integer.parseInt(page) - 1,
 				Integer.parseInt(size));
+		String name = query.getName();
+		String orgId = "XXX";
 		Page<BaseBookauthor> pg = baseBookauthorRepository
-				.findBookAuthors(request);
+				.findBookAuthors(name,orgId,request);
 		PageInfo pageInfo = new PageInfo();
 		if (pg != null && pg.getContent().size() > 0) {
 			pageInfo.setPage(pg.getNumber() + 1);
@@ -156,6 +159,22 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 			result.setCode(BookBaseMgmtResultConstant.BOOKBASEMGMT_UNKNOW_ERROR);
 			result.setMessage("删除失败");
 		}
+		return result;
+	}
+
+	@Override
+	public GeneralContentResult<List<BookAuthorRspBody>> findBookAuthorByName(
+			String name) {
+		String orgId = "XXX";
+		GeneralContentResult<List<BookAuthorRspBody>> result = new GeneralContentResult<List<BookAuthorRspBody>>();
+		List<BookAuthorRspBody> bodies = new ArrayList<BookAuthorRspBody>();
+		List<BaseBookauthor> bookauthors = baseBookauthorRepository.findBookAuthorByName(name,orgId);
+		for(BaseBookauthor bookauthor : bookauthors){
+			bodies.add(BookAuthorConverter.baseBookauthor2BookAuthorRspBody(bookauthor));
+		}
+		result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
+		result.setMessage("查询成功");
+		result.setContent(bodies);
 		return result;
 	}
 

@@ -22,6 +22,7 @@ import com.bookcase.system.bookbasemgmt.constant.BookBaseMgmtResultConstant;
 import com.bookcase.system.bookbasemgmt.domain.BaseBookcaseLayerinsidesize;
 import com.bookcase.system.bookbasemgmt.dto.bookcaselayerinsidesize.BookCaseLayerInsideSizeReqBody;
 import com.bookcase.system.bookbasemgmt.dto.bookcaselayerinsidesize.BookCaseLayerInsideSizeReqParam;
+import com.bookcase.system.bookbasemgmt.dto.bookcaselayerinsidesize.BookCaseLayerInsideSizeReqQuery;
 import com.bookcase.system.bookbasemgmt.otd.bookcaselayerinsidesize.BookCaseLayerInsideSizeRspBody;
 import com.bookcase.system.bookbasemgmt.repository.BaseBookcaseLayerinsidesizeRepository;
 import com.bookcase.system.bookbasemgmt.service.BookCaseLayerInsideSizeService;
@@ -37,13 +38,15 @@ public class BookCaseLayerInsideSizeServiceImpl implements
 
 	@Override
 	public GeneralPagingResult<List<BookCaseLayerInsideSizeRspBody>> findBookCaseLayerInsideSizes(
-			String page, String size) {
+			BookCaseLayerInsideSizeReqQuery query, String page, String size) {
 		GeneralPagingResult<List<BookCaseLayerInsideSizeRspBody>> result = new GeneralPagingResult<List<BookCaseLayerInsideSizeRspBody>>();
 		List<BookCaseLayerInsideSizeRspBody> rspBodies = new ArrayList<BookCaseLayerInsideSizeRspBody>();
 		PageRequest request = new PageRequest(Integer.parseInt(page) - 1,
 				Integer.parseInt(size));
+		String name = query.getName();
+		String orgId = "XXX";
 		Page<BaseBookcaseLayerinsidesize> pg = baseBookcaseLayerinsidesizeRepository
-				.findBookCaseLayerInsideSizes(request);
+				.findBookCaseLayerInsideSizes(name,orgId,request);
 		PageInfo pageInfo = new PageInfo();
 		if (pg != null && pg.getContent().size() > 0) {
 			pageInfo.setPage(pg.getNumber() + 1);
@@ -51,7 +54,8 @@ public class BookCaseLayerInsideSizeServiceImpl implements
 			pageInfo.setTotalcount((int) pg.getTotalElements());
 			pageInfo.setTotalpage(pg.getTotalPages());
 			for (BaseBookcaseLayerinsidesize layerinsidesize : pg.getContent()) {
-				rspBodies.add(BookCaseLayerInsideSizeConverter
+				rspBodies
+						.add(BookCaseLayerInsideSizeConverter
 								.baseBookcaseLayerinsidesize2BookCaseLayerInsideSizeRspBody(layerinsidesize));
 			}
 		}
@@ -100,8 +104,9 @@ public class BookCaseLayerInsideSizeServiceImpl implements
 			String bookCaseLayerInsideSizeId,
 			BookCaseLayerInsideSizeReqBody bookCaseLayerInsideSizeReqBody) {
 		GeneralResult result = new GeneralResult();
-		BaseBookcaseLayerinsidesize tmp = baseBookcaseLayerinsidesizeRepository.findBaseBookcaseLayerinsidesizeById(bookCaseLayerInsideSizeId);
-		if(tmp==null){
+		BaseBookcaseLayerinsidesize tmp = baseBookcaseLayerinsidesizeRepository
+				.findBaseBookcaseLayerinsidesizeById(bookCaseLayerInsideSizeId);
+		if (tmp == null) {
 			result.setCode(BookBaseMgmtResultConstant.BOOKBASEMGMT_UNKNOW_ERROR);
 			result.setMessage("该更新数据不存在");
 			return result;
@@ -126,20 +131,38 @@ public class BookCaseLayerInsideSizeServiceImpl implements
 		GeneralResult result = new GeneralResult();
 		int size = bookCaseLayerInsideSizeReqParam.getIds().size();
 		int tmpSize = 0;
-		for(String id : bookCaseLayerInsideSizeReqParam.getIds()){
-			int tmp = baseBookcaseLayerinsidesizeRepository.setStatusFor(BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, id);
+		for (String id : bookCaseLayerInsideSizeReqParam.getIds()) {
+			int tmp = baseBookcaseLayerinsidesizeRepository.setStatusFor(
+					BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, id);
 			tmpSize++;
 		}
-		if(size==tmpSize){
+		if (size == tmpSize) {
 			result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
 			result.setMessage("删除成功");
-		}else if(size>tmpSize){
+		} else if (size > tmpSize) {
 			result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
 			result.setMessage("部分数据删除成功");
-		}else if(tmpSize==0){
+		} else if (tmpSize == 0) {
 			result.setCode(BookBaseMgmtResultConstant.BOOKBASEMGMT_UNKNOW_ERROR);
 			result.setMessage("删除失败");
 		}
+		return result;
+	}
+
+	@Override
+	public GeneralContentResult<List<BookCaseLayerInsideSizeRspBody>> findBookCaseLayerInsideSizeByName(
+			String name) {
+		GeneralContentResult<List<BookCaseLayerInsideSizeRspBody>> result = new GeneralContentResult<List<BookCaseLayerInsideSizeRspBody>>();
+		String orgId = "XXX";
+		List<BookCaseLayerInsideSizeRspBody> rspBodies = new ArrayList<BookCaseLayerInsideSizeRspBody>();
+		List<BaseBookcaseLayerinsidesize> layerinsidesizes = baseBookcaseLayerinsidesizeRepository.findBookCaseLayerInsideSizesByName(name,orgId);
+		for (BaseBookcaseLayerinsidesize layerinsidesize : layerinsidesizes) {
+			rspBodies.add(BookCaseLayerInsideSizeConverter
+							.baseBookcaseLayerinsidesize2BookCaseLayerInsideSizeRspBody(layerinsidesize));
+		}
+		result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
+		result.setMessage("查询成功");
+		result.setContent(rspBodies);
 		return result;
 	}
 
