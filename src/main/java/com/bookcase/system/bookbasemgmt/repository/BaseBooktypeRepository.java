@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,8 +33,8 @@ import com.bookcase.system.bookbasemgmt.domain.BaseBooktype;
  */
 public interface BaseBooktypeRepository extends JpaRepository<BaseBooktype, String>{
 
-	@Query("SELECT a FROM BaseBooktype a where a.name like CONCAT('%',:name,'%') AND a.orgId = :orgId  AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
-	Page<BaseBooktype> findBookTypes(@Param("name") String name,@Param("orgId") String orgId, PageRequest request);
+	@Query("SELECT a FROM BaseBooktype a where a.name like CONCAT('%',:name,'%') AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
+	Page<BaseBooktype> findBookTypes(@Param("name") String name, Pageable pageable);
 
 	@Query("SELECT a FROM BaseBooktype a where a.id = ?1 AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
 	BaseBooktype findBaseBaseBookTypeById(String bookTypeId);
@@ -41,8 +42,8 @@ public interface BaseBooktypeRepository extends JpaRepository<BaseBooktype, Stri
 	@Query("UPDATE BaseBooktype a SET a.status = ?1 where a.id = ?2" )
 	int setStatusFor(short statusGlobalDeleted, String id);
 
-	@Query("SELECT a FROM BaseBooktype a where a.name like CONCAT('%',:name,'%') AND a.orgId = :orgId  AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
-	List<BaseBooktype> findBookTypeByName(String name, String orgId);
+	@Query("SELECT a FROM BaseBooktype a where a.name like CONCAT('%',:name,'%')   AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
+	List<BaseBooktype> findBookTypeByName(String name);
 
 }
 

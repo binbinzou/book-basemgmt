@@ -13,8 +13,10 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.bookcase.system.bookbasemgmt.constant.BookBaseMgmtConstant;
@@ -33,8 +35,8 @@ import com.bookcase.system.bookbasemgmt.domain.BaseBookCommonmsg;
 @Repository
 public interface BaseBookCommonMsgRepository extends JpaRepository<BaseBookCommonmsg, String>{
 
-	@Query("SELECT a FROM BaseBookCommonmsg a where a.name like CONCAT('%',:name,'%') AND a.orgId = :orgId AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
-	Page<BaseBookCommonmsg> findBookCommonMsgs(String name, String orgId, PageRequest request);
+	@Query("SELECT a FROM BaseBookCommonmsg a where a.name like CONCAT('%',:name,'%') AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
+	Page<BaseBookCommonmsg> findBookCommonMsgs(@Param("name") String name , Pageable pageable);
 
 	@Query("SELECT a FROM BaseBookCommonmsg a where a.id = ?1 AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
 	BaseBookCommonmsg findBookCommonMsgById(String bookCommonMsgId);
@@ -42,8 +44,8 @@ public interface BaseBookCommonMsgRepository extends JpaRepository<BaseBookCommo
 	@Query("UPDATE BaseBookCommonmsg a SET a.status = ?1 where a.id = ?2" )
 	int setStatusFor(short statusGlobalDeleted, String id);
 
-	@Query("SELECT a FROM BaseBookCommonmsg a where a.name like CONCAT('%',:name,'%') AND a.orgId = :orgId AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
-	List<BaseBookCommonmsg> findBookCommonMsgByName(String name, String orgId);
+	@Query("SELECT a FROM BaseBookCommonmsg a where a.name like CONCAT('%',:name,'%') AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
+	List<BaseBookCommonmsg> findBookCommonMsgByName(String name);
 
 }
 

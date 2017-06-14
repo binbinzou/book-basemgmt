@@ -65,9 +65,8 @@ public class BookCommonMsgServiceImpl implements BookCommonMsgService {
 		PageRequest request = new PageRequest(Integer.parseInt(page) - 1,
 				Integer.parseInt(size));
 		String name = query.getName();
-		String orgId = "XXX";
 		Page<BaseBookCommonmsg> pg = baseBookCommonMsgRepository
-				.findBookCommonMsgs(name,orgId,request);
+				.findBookCommonMsgs(name,request);
 		PageInfo pageInfo = new PageInfo();
 		if (pg != null && pg.getContent().size() > 0) {
 			pageInfo.setPage(pg.getNumber() + 1);
@@ -167,8 +166,7 @@ public class BookCommonMsgServiceImpl implements BookCommonMsgService {
 			String name) {
 		GeneralContentResult<List<BookCommonMsgRspBody>> result = new GeneralContentResult<List<BookCommonMsgRspBody>>();
 		List<BookCommonMsgRspBody> rspBodies = new ArrayList<BookCommonMsgRspBody>();
-		String orgId = "XXX";
-		List<BaseBookCommonmsg> commonmsgs = baseBookCommonMsgRepository.findBookCommonMsgByName(name,orgId);
+		List<BaseBookCommonmsg> commonmsgs = baseBookCommonMsgRepository.findBookCommonMsgByName(name);
 		for(BaseBookCommonmsg bookCommonmsg : commonmsgs){
 			rspBodies.add(BookCommonMsgConverter.bookCommonmsg2BookCommonMsgRspBody(bookCommonmsg));
 		}

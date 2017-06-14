@@ -65,9 +65,8 @@ public class BookTypeServiceImpl implements BookTypeService {
 		PageRequest request = new PageRequest(Integer.parseInt(page) - 1,
 				Integer.parseInt(size));
 		String name = query.getName();
-		String orgId = "XXX";
 		Page<BaseBooktype> pg = baseBooktypeRepository
-				.findBookTypes(name,orgId,request);
+				.findBookTypes(name,request);
 		PageInfo pageInfo = new PageInfo();
 		if (pg != null && pg.getContent().size() > 0) {
 			pageInfo.setPage(pg.getNumber() + 1);
@@ -163,9 +162,8 @@ public class BookTypeServiceImpl implements BookTypeService {
 	@Override
 	public GeneralContentResult<List<BookTypeRspBody>> findBookTypeByName(String name) {
 		GeneralContentResult<List<BookTypeRspBody>> result = new GeneralContentResult<List<BookTypeRspBody>>();
-		String orgId = "XXX";
 		List<BookTypeRspBody> bodies = new ArrayList<BookTypeRspBody>();
-		List<BaseBooktype> booktypes = baseBooktypeRepository.findBookTypeByName(name,orgId);
+		List<BaseBooktype> booktypes = baseBooktypeRepository.findBookTypeByName(name);
 		for(BaseBooktype booktype : booktypes){
 			bodies.add(BookTypeConverter.booktype2BookBookTypeRspBody(booktype));
 		}

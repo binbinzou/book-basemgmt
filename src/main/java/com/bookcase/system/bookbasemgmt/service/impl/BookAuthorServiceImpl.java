@@ -66,9 +66,8 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 		PageRequest request = new PageRequest(Integer.parseInt(page) - 1,
 				Integer.parseInt(size));
 		String name = query.getName();
-		String orgId = "XXX";
 		Page<BaseBookauthor> pg = baseBookauthorRepository
-				.findBookAuthors(name,orgId,request);
+				.findBookAuthors(name,request);
 		PageInfo pageInfo = new PageInfo();
 		if (pg != null && pg.getContent().size() > 0) {
 			pageInfo.setPage(pg.getNumber() + 1);
@@ -165,10 +164,9 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 	@Override
 	public GeneralContentResult<List<BookAuthorRspBody>> findBookAuthorByName(
 			String name) {
-		String orgId = "XXX";
 		GeneralContentResult<List<BookAuthorRspBody>> result = new GeneralContentResult<List<BookAuthorRspBody>>();
 		List<BookAuthorRspBody> bodies = new ArrayList<BookAuthorRspBody>();
-		List<BaseBookauthor> bookauthors = baseBookauthorRepository.findBookAuthorByName(name,orgId);
+		List<BaseBookauthor> bookauthors = baseBookauthorRepository.findBookAuthorByName(name);
 		for(BaseBookauthor bookauthor : bookauthors){
 			bodies.add(BookAuthorConverter.baseBookauthor2BookAuthorRspBody(bookauthor));
 		}
