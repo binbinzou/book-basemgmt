@@ -55,7 +55,7 @@ public class BookAuthorController {
 	@Autowired
 	BookAuthorService authorService;
 
-	@RequestMapping(value = "/auth/bookauthors/page/{page}/size/{size}", method = RequestMethod.GET)
+	@RequestMapping(value = "/auth/bookauthors/page/{page}/size/{size}", method = RequestMethod.POST)
 	@ApiOperation(value = "查询作者信息一栏(todo)")
 	@ApiImplicitParams({
 			@ApiImplicitParam(paramType = "path", name = "page", dataType = "String", required = true, value = "第几页", defaultValue = "1"),
@@ -98,16 +98,16 @@ public class BookAuthorController {
 	}
 	
 	@ApiOperation(value = "删除作者信息(todo)")
-	@RequestMapping(value = "/auth/bookauthors", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/auth/bookauthors/{anthorId}", method = RequestMethod.DELETE)
 	public GeneralResult deleteBookAuthors(
-			@RequestBody BookAuthorReqParam bookAuthorReqParam) {
+			@PathVariable("anthorId") String anthorId) {
 		GeneralResult result = authorService
-				.deleteBookAuthors(bookAuthorReqParam);
+				.deleteBookAuthors(anthorId);
 		return result;
 	}
 	
 	@ApiOperation(value = "根据名字查询作者信息(todo)")
-	@RequestMapping(value = "/auth/bookauthors/{name}", method = RequestMethod.GET)
+	@RequestMapping(value = "/auth/bookauthors/name/{name}", method = RequestMethod.GET)
 	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", name = "name", dataType = "String", required = true, value = "作者名字", defaultValue = "") })
 	public GeneralContentResult<List<BookAuthorRspBody>> findBookAuthorByName(
 			@PathVariable("name") String name) {

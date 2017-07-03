@@ -55,7 +55,7 @@ public class BookTypeController {
 	@Autowired
 	BookTypeService bookTypeService;
 
-	@RequestMapping(value = "/auth/booktypes/page/{page}/size/{size}", method = RequestMethod.GET)
+	@RequestMapping(value = "/auth/booktypes/page/{page}/size/{size}", method = RequestMethod.POST)
 	@ApiOperation(value = "查询图书类型信息一栏(todo)")
 	@ApiImplicitParams({
 			@ApiImplicitParam(paramType = "path", name = "page", dataType = "String", required = true, value = "第几页", defaultValue = "1"),
@@ -98,16 +98,16 @@ public class BookTypeController {
 	}
 	
 	@ApiOperation(value = "删除图书类型信息(todo)")
-	@RequestMapping(value = "/auth/booktypes", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/auth/booktypes/{bookTypeId}", method = RequestMethod.DELETE)
 	public GeneralResult deleteBookTypes(
-			@RequestBody BookTypeReqParam bookTypeReqParam) {
+			@PathVariable("bookTypeId") String bookTypeId) {
 		GeneralResult result = bookTypeService
-				.deleteBookTypes(bookTypeReqParam);
+				.deleteBookTypes(bookTypeId);
 		return result;
 	}
 	
 	@ApiOperation(value = "根据Name查询图书类型信息(todo)")
-	@RequestMapping(value = "/auth/booktypes/{name}", method = RequestMethod.GET)
+	@RequestMapping(value = "/auth/booktypes/name/{name}", method = RequestMethod.GET)
 	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", name = "name", dataType = "String", required = true, value = "图书类型信息Id", defaultValue = "") })
 	public GeneralContentResult<List<BookTypeRspBody>> findBookTypeByName(
 			@PathVariable("name") String name) {

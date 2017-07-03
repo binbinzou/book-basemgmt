@@ -44,7 +44,7 @@ public class BookCaseTypeController {
 	@Autowired
 	BookCaseTypeService bookCaseTypeService;
 	
-	@RequestMapping(value = "/auth/bookcasetypes/page/{page}/size/{size}", method = RequestMethod.GET)
+	@RequestMapping(value = "/auth/bookcasetypes/page/{page}/size/{size}", method = RequestMethod.POST)
 	@ApiOperation(value = "查询图书柜类别一栏(done)")
 	@ApiImplicitParams({
 			@ApiImplicitParam(paramType = "path", name = "page", dataType = "String", required = true, value = "第几页", defaultValue = "1"),
@@ -87,16 +87,16 @@ public class BookCaseTypeController {
 	}
 	
 	@ApiOperation(value = "删除图书柜类别(done)")
-	@RequestMapping(value = "/auth/bookcasetypes", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/auth/bookcasetypes/{bookCaseTypeId}", method = RequestMethod.DELETE)
 	public GeneralResult deleteBookCaseTypes(
-			@RequestBody BookCaseTypeReqParam bookCaseTypeReqParam) {
+			@PathVariable("bookCaseTypeId") String bookCaseTypeId) {
 		GeneralResult result = bookCaseTypeService
-				.deleteBookCaseTypes(bookCaseTypeReqParam);
+				.deleteBookCaseTypes(bookCaseTypeId);
 		return result;
 	}
 	
 	@ApiOperation(value = "根据name查询图书柜类别(done)")
-	@RequestMapping(value = "/auth/bookcasetype/{name}", method = RequestMethod.GET)
+	@RequestMapping(value = "/auth/bookcasetype/name/{name}", method = RequestMethod.GET)
 	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", name = "name", dataType = "String", required = true, value = "图书柜类别名字", defaultValue = "") })
 	public GeneralContentResult<List<BookCaseTypeRspBody>> findBookCaseTypeByName(
 			@PathVariable("name") String name) {

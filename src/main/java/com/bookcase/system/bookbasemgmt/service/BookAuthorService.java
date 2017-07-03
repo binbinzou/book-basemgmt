@@ -42,7 +42,7 @@ public interface BookAuthorService {
 	GeneralResult updateBookAuthor(String authodId,
 			BookAuthorReqBody bookAuthorReqBody);
 
-	GeneralResult deleteBookAuthors(BookAuthorReqParam bookAuthorReqParam);
+	GeneralResult deleteBookAuthors(String authodId);
 
 	GeneralContentResult<List<BookAuthorRspBody>> findBookAuthorByName(
 			String name);

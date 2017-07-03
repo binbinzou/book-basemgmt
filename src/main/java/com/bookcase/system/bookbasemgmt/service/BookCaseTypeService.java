@@ -43,7 +43,7 @@ public interface BookCaseTypeService {
 	GeneralResult updateBookCaseType(String bookcasetypeId,
 			BookCaseTypeReqBody bookCaseTypeReqBody);
 
-	GeneralResult deleteBookCaseTypes(BookCaseTypeReqParam bookCaseTypeReqParam);
+	GeneralResult deleteBookCaseTypes(String bookCaseTypeId);
 
 	GeneralContentResult<List<BookCaseTypeRspBody>> findBookCaseTypeByName(String name);
 

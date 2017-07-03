@@ -51,9 +51,6 @@ public class BaseBookCommonmsg implements Serializable {
 	@Column(name="PAGE_CNT")
 	private short pageCnt;
 
-	@Column(name="PUBLISH_HOME")
-	private String publishHome;
-
 	@Column(name="READ_OVERTIME")
 	private short readOvertime;
 
@@ -147,14 +144,6 @@ public class BaseBookCommonmsg implements Serializable {
 
 	public void setPageCnt(short pageCnt) {
 		this.pageCnt = pageCnt;
-	}
-
-	public String getPublishHome() {
-		return this.publishHome;
-	}
-
-	public void setPublishHome(String publishHome) {
-		this.publishHome = publishHome;
 	}
 
 	public short getReadOvertime() {

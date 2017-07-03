@@ -85,16 +85,16 @@ public class BookCaseLayerInsideSizeController {
 	}
 	
 	@ApiOperation(value = "删除图书柜内部规格(done)")
-	@RequestMapping(value = "/auth/bookcaselayerinsidesizes", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/auth/bookcaselayerinsidesizes/{bookCaseLayerInsideSizeId}", method = RequestMethod.DELETE)
 	public GeneralResult deleteBookCaseLayerInsideSizes(
-			@RequestBody BookCaseLayerInsideSizeReqParam bookCaseLayerInsideSizeReqParam) {
+			@PathVariable("bookCaseLayerInsideSizeId") String bookCaseLayerInsideSizeId) {
 		GeneralResult result = bookCaseLayerInsideSizeService
-				.deleteBookCaseLayerInsideSizes(bookCaseLayerInsideSizeReqParam);
+				.deleteBookCaseLayerInsideSizes(bookCaseLayerInsideSizeId);
 		return result;
 	}
 	
 	@ApiOperation(value = "根据name查询图书柜内部规格(done)")
-	@RequestMapping(value = "/auth/bookcaselayerinsidesizes/{name}", method = RequestMethod.GET)
+	@RequestMapping(value = "/auth/bookcaselayerinsidesizes/name/{name}", method = RequestMethod.GET)
 	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", name = "name", dataType = "String", required = true, value = "图书柜内部规格名称", defaultValue = "") })
 	public GeneralContentResult<List<BookCaseLayerInsideSizeRspBody>> findBookCaseLayerInsideSizeByName(
 			@PathVariable("name") String name) {

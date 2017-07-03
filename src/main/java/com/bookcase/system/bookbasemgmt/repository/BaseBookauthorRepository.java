@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -42,10 +43,11 @@ public interface BaseBookauthorRepository extends JpaRepository<BaseBookauthor, 
 	BaseBookauthor findBookAuthorById(String authodId);
 
 	@Query("UPDATE BaseBookauthor a SET a.status = ?1 where a.id = ?2" )
+	@Modifying
 	int setStatusFor(short statusGlobalDeleted, String id);
 
 	@Query("SELECT a FROM BaseBookauthor a where a.name like CONCAT('%',:name,'%')  AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
-	List<BaseBookauthor> findBookAuthorByName(String name);
+	List<BaseBookauthor> findBookAuthorByName(@Param("name") String name);
 	
 }
 

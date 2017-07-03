@@ -46,7 +46,7 @@ public interface BookCommonMsgService {
 			BookCommonMsgReqBody bookCommonMsgReqBody);
 
 	GeneralResult deleteBookCommonMsgs(
-			BookCommonMsgReqParam bookCommonMsgReqParam);
+			String bookCommonMsgId);
 
 	GeneralContentResult<List<BookCommonMsgRspBody>> findBookCommonMsgByName(
 			String name);

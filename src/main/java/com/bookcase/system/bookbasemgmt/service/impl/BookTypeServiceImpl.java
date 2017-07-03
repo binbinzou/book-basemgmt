@@ -136,23 +136,14 @@ public class BookTypeServiceImpl implements BookTypeService {
 	}
 
 	@Override
-	public GeneralResult deleteBookTypes(BookTypeReqParam bookTypeReqParam) {
+	@Transactional(propagation = Propagation.REQUIRED)
+	public GeneralResult deleteBookTypes(String bookTypeId) {
 		GeneralResult result = new GeneralResult();
-		int size = bookTypeReqParam.getIds().size();
-		int tmpSize = 0;
-		for(String id : bookTypeReqParam.getIds()){
-			int tmp = baseBooktypeRepository.setStatusFor(BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, id);
-			if(tmp>0){
-				tmpSize++;
-			}
-		}
-		if(size==tmpSize){
+		int tmp = baseBooktypeRepository.setStatusFor(BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, bookTypeId);
+		if(1==tmp){
 			result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
 			result.setMessage("删除成功");
-		}else if(size>tmpSize){
-			result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
-			result.setMessage("部分数据删除成功");
-		}else if(tmpSize==0){
+		}else {
 			result.setCode(BookBaseMgmtResultConstant.BOOKBASEMGMT_UNKNOW_ERROR);
 			result.setMessage("删除失败");
 		}
@@ -170,7 +161,7 @@ public class BookTypeServiceImpl implements BookTypeService {
 		result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
 		result.setMessage("查询成功");
 		result.setContent(bodies);
-		return null;
+		return result;
 	}
 
 }

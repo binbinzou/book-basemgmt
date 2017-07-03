@@ -41,7 +41,7 @@ public interface BookTypeService {
 	GeneralResult updateBookType(String bookTypeId,
 			BookTypeReqBody bookTypeReqBody);
 
-	GeneralResult deleteBookTypes(BookTypeReqParam bookTypeReqParam);
+	GeneralResult deleteBookTypes(String bookTypeId);
 
 	GeneralContentResult<List<BookTypeRspBody>> findBookTypeByName(String name);
 

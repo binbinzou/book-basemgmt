@@ -37,7 +37,6 @@ public class BookCommonMsgConverter {
 		rspBody.setId(bookCommonmsg.getId());
 		rspBody.setName(bookCommonmsg.getName());
 		rspBody.setPageCnt(bookCommonmsg.getPageCnt());
-		rspBody.setPublishHome(bookCommonmsg.getPublishHome());
 		rspBody.setReadOvertime(bookCommonmsg.getReadOvertime());
 		rspBody.setStatus(bookCommonmsg.getStatus());
 		rspBody.setTranslatorId(bookCommonmsg.getTranslatorId());
@@ -55,7 +54,6 @@ public class BookCommonMsgConverter {
 		commonmsg.setCatalog(bookCommonMsgReqBody.getCatalog());
 		commonmsg.setName(bookCommonMsgReqBody.getName());
 		commonmsg.setPageCnt(bookCommonMsgReqBody.getPageCnt());
-		commonmsg.setPublishHome(bookCommonMsgReqBody.getPublishHome());
 		commonmsg.setReadOvertime(bookCommonMsgReqBody.getReadOvertime());
 		commonmsg.setTranslatorId(bookCommonMsgReqBody.getTranslatorId());
 		commonmsg.setBooktypeId(bookCommonMsgReqBody.getBooktypeId());

@@ -55,7 +55,7 @@ public class BookCommonMsgController {
 	@Autowired
 	BookCommonMsgService commonMsgService;
 
-	@RequestMapping(value = "/auth/bookcommonmsgs/page/{page}/size/{size}", method = RequestMethod.GET)
+	@RequestMapping(value = "/auth/bookcommonmsgs/page/{page}/size/{size}", method = RequestMethod.POST)
 	@ApiOperation(value = "查询书信息一栏(todo)")
 	@ApiImplicitParams({
 			@ApiImplicitParam(paramType = "path", name = "page", dataType = "String", required = true, value = "第几页", defaultValue = "1"),
@@ -98,16 +98,16 @@ public class BookCommonMsgController {
 	}
 	
 	@ApiOperation(value = "删除书信息(todo)")
-	@RequestMapping(value = "/auth/bookcommonmsgs", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/auth/bookcommonmsgs/{bookCommonMsgId}", method = RequestMethod.DELETE)
 	public GeneralResult deleteBookCommonMsgs(
-			@RequestBody BookCommonMsgReqParam bookCommonMsgReqParam) {
+			@PathVariable("bookCommonMsgId") String bookCommonMsgId) {
 		GeneralResult result = commonMsgService
-				.deleteBookCommonMsgs(bookCommonMsgReqParam);
+				.deleteBookCommonMsgs(bookCommonMsgId);
 		return result;
 	}
 	
 	@ApiOperation(value = "根据Name查询书信息(todo)")
-	@RequestMapping(value = "/auth/bookcommonmsgs/{name}", method = RequestMethod.GET)
+	@RequestMapping(value = "/auth/bookcommonmsgs/name/{name}", method = RequestMethod.GET)
 	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", name = "name", dataType = "String", required = true, value = "书信息名字", defaultValue = "") })
 	public GeneralContentResult<List<BookCommonMsgRspBody>> findBookCommonMsgByName(
 			@PathVariable("name") String name) {

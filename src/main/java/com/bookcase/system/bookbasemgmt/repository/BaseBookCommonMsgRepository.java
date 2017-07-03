@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -41,11 +42,12 @@ public interface BaseBookCommonMsgRepository extends JpaRepository<BaseBookCommo
 	@Query("SELECT a FROM BaseBookCommonmsg a where a.id = ?1 AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
 	BaseBookCommonmsg findBookCommonMsgById(String bookCommonMsgId);
 
+	@Modifying
 	@Query("UPDATE BaseBookCommonmsg a SET a.status = ?1 where a.id = ?2" )
 	int setStatusFor(short statusGlobalDeleted, String id);
 
 	@Query("SELECT a FROM BaseBookCommonmsg a where a.name like CONCAT('%',:name,'%') AND a.status<" + BookBaseMgmtConstant.STATUS_GLOBAL_DELETED)
-	List<BaseBookCommonmsg> findBookCommonMsgByName(String name);
+	List<BaseBookCommonmsg> findBookCommonMsgByName(@Param("name") String name);
 
 }
 

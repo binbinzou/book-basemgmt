@@ -138,23 +138,13 @@ public class BookCommonMsgServiceImpl implements BookCommonMsgService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public GeneralResult deleteBookCommonMsgs(
-			BookCommonMsgReqParam bookCommonMsgReqParam) {
+			 String bookCommonMsgId) {
 		GeneralResult result = new GeneralResult();
-		int size = bookCommonMsgReqParam.getIds().size();
-		int tmpSize = 0;
-		for(String id : bookCommonMsgReqParam.getIds()){
-			int tmp = baseBookCommonMsgRepository.setStatusFor(BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, id);
-			if(tmp>0){
-				tmpSize++;
-			}
-		}
-		if(size==tmpSize){
+		int tmp = baseBookCommonMsgRepository.setStatusFor(BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, bookCommonMsgId);
+		if(1==tmp){
 			result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
 			result.setMessage("删除成功");
-		}else if(size>tmpSize){
-			result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
-			result.setMessage("部分数据删除成功");
-		}else if(tmpSize==0){
+		}else {
 			result.setCode(BookBaseMgmtResultConstant.BOOKBASEMGMT_UNKNOW_ERROR);
 			result.setMessage("删除失败");
 		}

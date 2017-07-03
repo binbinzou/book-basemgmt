@@ -184,26 +184,19 @@ public class BookCaseTypeServiceImpl implements BookCaseTypeService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public GeneralResult deleteBookCaseTypes(
-			BookCaseTypeReqParam bookCaseTypeReqParam) {
+			String bookCaseTypeId) {
 		GeneralResult result = new GeneralResult();
-		int size = bookCaseTypeReqParam.getIds().size();
-		int tmpSize = 0;
-		for (String id : bookCaseTypeReqParam.getIds()) {
-			int tmp = baseBookcaseTypeRepository.setStatusFor(
-					BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, id);
-			if (tmp > 0) {
-				baseBookcaseTypeLayerinsideRepository
-						.updateStatusByBookCaseTypeId(
-								BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, id);
-			}
+		int tmp = baseBookcaseTypeRepository.setStatusFor(
+				BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, bookCaseTypeId);
+		if (tmp > 0) {
+			baseBookcaseTypeLayerinsideRepository
+					.updateStatusByBookCaseTypeId(
+							BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, bookCaseTypeId);
 		}
-		if (size == tmpSize) {
+		if (1 == tmp) {
 			result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
 			result.setMessage("删除成功");
-		} else if (size > tmpSize) {
-			result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
-			result.setMessage("部分数据删除成功");
-		} else if (tmpSize == 0) {
+		} else {
 			result.setCode(BookBaseMgmtResultConstant.BOOKBASEMGMT_UNKNOW_ERROR);
 			result.setMessage("删除失败");
 		}

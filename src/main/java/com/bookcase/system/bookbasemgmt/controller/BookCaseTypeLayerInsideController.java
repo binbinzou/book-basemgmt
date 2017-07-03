@@ -18,6 +18,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +48,7 @@ import com.bookcase.system.bookbasemgmt.service.BookCaseTypeLayerInsideService;
 @Slf4j
 public class BookCaseTypeLayerInsideController {
 
+	@Autowired
 	BookCaseTypeLayerInsideService bookCaseTypeLayerInsideService;
 	
 	@RequestMapping(value = "/auth/bookcasetypelayerinsides/page/{page}/size/{size}", method = RequestMethod.GET)
@@ -92,11 +94,11 @@ public class BookCaseTypeLayerInsideController {
 	}
 	
 	@ApiOperation(value = "删除图书柜类别内部分层")
-	@RequestMapping(value = "/auth/bookcasetypelayerinsides", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/auth/bookcasetypelayerinsides/{bookCaseTypeLayerInsideId}", method = RequestMethod.DELETE)
 	public GeneralResult deleteBookCaseTypeLayerInsides(
-			@RequestBody BookCaseTypeLayerInsideReqParam bookCaseTypeLayerInsideReqParam) {
+			@PathVariable("bookCaseTypeLayerInsideId") String bookCaseTypeLayerInsideId) {
 		GeneralResult result = bookCaseTypeLayerInsideService
-				.deleteBookCaseTypeLayerInsides(bookCaseTypeLayerInsideReqParam);
+				.deleteBookCaseTypeLayerInsides(bookCaseTypeLayerInsideId);
 		return result;
 	}
 	

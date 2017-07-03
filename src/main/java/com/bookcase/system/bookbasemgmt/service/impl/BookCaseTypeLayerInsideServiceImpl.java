@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bookcase.common.bookcommon.contant.CommonResultCodeConstant;
 import com.bookcase.common.system.bookframework.page.PageInfo;
@@ -95,6 +97,7 @@ public class BookCaseTypeLayerInsideServiceImpl implements BookCaseTypeLayerInsi
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public GeneralContentResult<String> createBookCaseTypeLayerInside(
 			BookCaseTypeLayerInsideReqBody bookCaseTypeLayerInsideReqBody) {
 		GeneralContentResult<String> result = new GeneralContentResult<String>();
@@ -110,6 +113,7 @@ public class BookCaseTypeLayerInsideServiceImpl implements BookCaseTypeLayerInsi
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public GeneralResult updateBookCaseTypeLayerInside(
 			String bookCaseTypeLayerInsideId,
 			BookCaseTypeLayerInsideReqBody bookCaseTypeLayerInsideReqBody) {
@@ -134,22 +138,15 @@ public class BookCaseTypeLayerInsideServiceImpl implements BookCaseTypeLayerInsi
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public GeneralResult deleteBookCaseTypeLayerInsides(
-			BookCaseTypeLayerInsideReqParam bookCaseTypeLayerInsideReqParam) {
+			String bookCaseTypeLayerInsideId) {
 		GeneralResult result = new GeneralResult();
-		int size = bookCaseTypeLayerInsideReqParam.getIds().size();
-		int tmpSize = 0;
-		for(String id : bookCaseTypeLayerInsideReqParam.getIds()){
-			int tmp = baseBookcaseTypeLayerinsideRepository.setStatusFor(BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, id);
-			tmpSize++;
-		}
-		if(size==tmpSize){
+		int tmp = baseBookcaseTypeLayerinsideRepository.setStatusFor(BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, bookCaseTypeLayerInsideId);
+		if(1==tmp){
 			result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
 			result.setMessage("删除成功");
-		}else if(size>tmpSize){
-			result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
-			result.setMessage("部分数据删除成功");
-		}else if(tmpSize==0){
+		}else {
 			result.setCode(BookBaseMgmtResultConstant.BOOKBASEMGMT_UNKNOW_ERROR);
 			result.setMessage("删除失败");
 		}

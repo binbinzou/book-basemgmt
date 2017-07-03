@@ -44,7 +44,7 @@ public interface BookCaseTypeLayerInsideService {
 			BookCaseTypeLayerInsideReqBody bookCaseTypeLayerInsideReqBody);
 
 	GeneralResult deleteBookCaseTypeLayerInsides(
-			BookCaseTypeLayerInsideReqParam bookCaseTypeLayerInsideReqParam);
+			String bookCaseTypeLayerInsideId);
 
 }
 

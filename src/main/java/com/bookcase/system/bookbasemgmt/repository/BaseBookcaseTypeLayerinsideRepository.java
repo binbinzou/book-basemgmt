@@ -28,7 +28,8 @@ public interface BaseBookcaseTypeLayerinsideRepository extends JpaRepository<Bas
 	@Query("UPDATE BaseBookcaseTypeLayerinside a SET a.status = ?1 where a.id = ?2" )
 	int setStatusFor(short statusGlobalDeleted, String id);
 
-	@Query("DELETE FROM BaseBookcaseTypeLayerinside a WHERE a.bookcaseTypeId = ?2" )
+	@Modifying
+	@Query("DELETE FROM BaseBookcaseTypeLayerinside a WHERE a.bookcaseTypeId = ?1" )
 	void deleteByBookCaseTypeId(String bookcasetypeId);
 
 	@Modifying

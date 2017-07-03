@@ -5,7 +5,7 @@
  * Date:2017年5月24日下午8:51:38
  * Copyright (c) 2017, binbin.zou@hpe.com All Rights Reserved.
  *
-*/
+ */
 
 package com.bookcase.system.bookbasemgmt.service.impl;
 
@@ -44,12 +44,13 @@ import com.bookcase.system.bookbasemgmt.utils.BookCaseTypeConverter;
 /**
  * ClassName:BookAuthorServiceImpl <br/>
  * Function: TODO ADD FUNCTION. <br/>
- * Reason:	 TODO ADD REASON. <br/>
- * Date:     2017年5月24日 下午8:51:38 <br/>
- * @author   binbin
- * @version  
- * @since    JDK 1.8
- * @see 	 
+ * Reason: TODO ADD REASON. <br/>
+ * Date: 2017年5月24日 下午8:51:38 <br/>
+ * 
+ * @author binbin
+ * @version
+ * @since JDK 1.8
+ * @see
  */
 @Service
 @Slf4j
@@ -57,17 +58,17 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 
 	@Autowired
 	BaseBookauthorRepository baseBookauthorRepository;
-	
+
 	@Override
-	public GeneralPagingResult<List<BookAuthorRspBody>> findBookAuthors(BookAuthorReqQuery query,
-			String page, String size) {
+	public GeneralPagingResult<List<BookAuthorRspBody>> findBookAuthors(
+			BookAuthorReqQuery query, String page, String size) {
 		GeneralPagingResult<List<BookAuthorRspBody>> result = new GeneralPagingResult<List<BookAuthorRspBody>>();
 		List<BookAuthorRspBody> rspBodies = new ArrayList<BookAuthorRspBody>();
 		PageRequest request = new PageRequest(Integer.parseInt(page) - 1,
 				Integer.parseInt(size));
 		String name = query.getName();
-		Page<BaseBookauthor> pg = baseBookauthorRepository
-				.findBookAuthors(name,request);
+		Page<BaseBookauthor> pg = baseBookauthorRepository.findBookAuthors(
+				name, request);
 		PageInfo pageInfo = new PageInfo();
 		if (pg != null && pg.getContent().size() > 0) {
 			pageInfo.setPage(pg.getNumber() + 1);
@@ -76,7 +77,7 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 			pageInfo.setTotalpage(pg.getTotalPages());
 			for (BaseBookauthor baseBookauthor : pg.getContent()) {
 				rspBodies.add(BookAuthorConverter
-								.baseBookauthor2BookAuthorRspBody(baseBookauthor));
+						.baseBookauthor2BookAuthorRspBody(baseBookauthor));
 			}
 		}
 		result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
@@ -91,7 +92,8 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 			String authodId) {
 		GeneralContentResult<BookAuthorRspBody> result = new GeneralContentResult<BookAuthorRspBody>();
 		BaseBookauthor bookauthor = baseBookauthorRepository.findOne(authodId);
-		BookAuthorRspBody rspBody = BookAuthorConverter.baseBookauthor2BookAuthorRspBody(bookauthor);
+		BookAuthorRspBody rspBody = BookAuthorConverter
+				.baseBookauthor2BookAuthorRspBody(bookauthor);
 		result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
 		result.setMessage("查询成功");
 		result.setContent(rspBody);
@@ -103,7 +105,8 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 	public GeneralContentResult<String> createBookAuthor(
 			BookAuthorReqBody bookAuthorReqBody) {
 		GeneralContentResult<String> result = new GeneralContentResult<String>();
-		BaseBookauthor bookauthor = BookAuthorConverter.bookAuthorReqBody2BaseBookauthor(bookAuthorReqBody);
+		BaseBookauthor bookauthor = BookAuthorConverter
+				.bookAuthorReqBody2BaseBookauthor(bookAuthorReqBody);
 		bookauthor.setCreator("XXX");
 		bookauthor.setStatus(BookBaseMgmtConstant.STATUS_GLOBAL_ENABLE);
 		bookauthor = baseBookauthorRepository.save(bookauthor);
@@ -118,8 +121,9 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 	public GeneralResult updateBookAuthor(String authodId,
 			BookAuthorReqBody bookAuthorReqBody) {
 		GeneralResult result = new GeneralResult();
-		BaseBookauthor tmp = baseBookauthorRepository.findBookAuthorById(authodId);
-		if(tmp==null){
+		BaseBookauthor tmp = baseBookauthorRepository
+				.findBookAuthorById(authodId);
+		if (tmp == null) {
 			result.setCode(BookBaseMgmtResultConstant.BOOKBASEMGMT_UNKNOW_ERROR);
 			result.setMessage("该更新数据不存在");
 			return result;
@@ -129,8 +133,7 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 		bookauthor.setStatus(BookBaseMgmtConstant.STATUS_GLOBAL_ENABLE);
 		bookauthor.setCreator("XXX");
 		bookauthor.setId(authodId);
-		bookauthor = baseBookauthorRepository
-				.save(bookauthor);
+		bookauthor = baseBookauthorRepository.save(bookauthor);
 		result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
 		result.setMessage("更新成功");
 		return result;
@@ -138,23 +141,14 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public GeneralResult deleteBookAuthors(BookAuthorReqParam bookAuthorReqParam) {
+	public GeneralResult deleteBookAuthors(String authodId) {
 		GeneralResult result = new GeneralResult();
-		int size = bookAuthorReqParam.getIds().size();
-		int tmpSize = 0;
-		for(String id : bookAuthorReqParam.getIds()){
-			int tmp = baseBookauthorRepository.setStatusFor(BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, id);
-			if(tmp>0){
-				tmpSize++;
-			}
-		}
-		if(size==tmpSize){
+		int tmp = baseBookauthorRepository.setStatusFor(
+				BookBaseMgmtConstant.STATUS_GLOBAL_DELETED, authodId);
+		if (1 == tmp) {
 			result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
 			result.setMessage("删除成功");
-		}else if(size>tmpSize){
-			result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
-			result.setMessage("部分数据删除成功");
-		}else if(tmpSize==0){
+		} else {
 			result.setCode(BookBaseMgmtResultConstant.BOOKBASEMGMT_UNKNOW_ERROR);
 			result.setMessage("删除失败");
 		}
@@ -166,9 +160,11 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 			String name) {
 		GeneralContentResult<List<BookAuthorRspBody>> result = new GeneralContentResult<List<BookAuthorRspBody>>();
 		List<BookAuthorRspBody> bodies = new ArrayList<BookAuthorRspBody>();
-		List<BaseBookauthor> bookauthors = baseBookauthorRepository.findBookAuthorByName(name);
-		for(BaseBookauthor bookauthor : bookauthors){
-			bodies.add(BookAuthorConverter.baseBookauthor2BookAuthorRspBody(bookauthor));
+		List<BaseBookauthor> bookauthors = baseBookauthorRepository
+				.findBookAuthorByName(name);
+		for (BaseBookauthor bookauthor : bookauthors) {
+			bodies.add(BookAuthorConverter
+					.baseBookauthor2BookAuthorRspBody(bookauthor));
 		}
 		result.setCode(CommonResultCodeConstant.OPERATE_SUCCESS);
 		result.setMessage("查询成功");
@@ -177,4 +173,3 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 	}
 
 }
-

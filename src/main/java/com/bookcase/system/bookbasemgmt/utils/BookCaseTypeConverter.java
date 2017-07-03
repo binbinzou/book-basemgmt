@@ -36,7 +36,7 @@ public class BookCaseTypeConverter {
 		type.setLength(bookCaseTypeReqBody.getLength());
 		type.setWide(bookCaseTypeReqBody.getWide());
 		type.setHeight(bookCaseTypeReqBody.getHeight());
-		type.setBoxCount(bookCaseTypeReqBody.getBoxCount());
+		type.setBoxCount(bookCaseTypeReqBody.getLayerInsideReqBodies().size());
 		return type;
 	}
 	

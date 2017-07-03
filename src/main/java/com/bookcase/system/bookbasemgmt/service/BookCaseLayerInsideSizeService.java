@@ -25,7 +25,7 @@ public interface BookCaseLayerInsideSizeService {
 			BookCaseLayerInsideSizeReqBody bookCaseLayerInsideSizeReqBody);
 
 	GeneralResult deleteBookCaseLayerInsideSizes(
-			BookCaseLayerInsideSizeReqParam bookCaseLayerInsideSizeReqParam);
+			String bookCaseLayerInsideSizeId);
 
 	GeneralContentResult<List<BookCaseLayerInsideSizeRspBody>> findBookCaseLayerInsideSizeByName(
 			String name);
